@@ -33,14 +33,17 @@ public class Propellant {
     }
 
 
-    public void updateActualPower(int actualPower) {
+    public int updateActualPower(int actualPower) {
         this.actualPower += actualPower;
         if(this.actualPower > maxPower){
             this.actualPower = maxPower;
+            return actualPower;
         }
         else if(this.actualPower < 0){
             this.actualPower = 0;
+            return actualPower;
         }
+        return actualPower;
     }
 
     public int getActualPower() {

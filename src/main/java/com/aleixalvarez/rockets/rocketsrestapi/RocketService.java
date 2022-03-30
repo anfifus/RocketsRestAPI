@@ -12,7 +12,6 @@ public class RocketService {
     private PropellantRepository propellantRepository;
 
 
-
     @Autowired
     public RocketService(RocketRepository rocketRepository, PropellantRepository propellantRepository) {
         this.rocketRepository = rocketRepository;
@@ -35,7 +34,7 @@ public class RocketService {
         return rocketRepository.findById(id).get();
     }
 
-    public Rocket updateRocket(Long id, Rocket rocketUpdate) {
+    public Rocket updateRocket(Long id, Rocket rocketUpdate) throws Exception {
         Rocket rocketToBeUpdated = getRocketByID(id);
         rocketToBeUpdated.setCode(rocketUpdate.getCode());
         return rocketRepository.save(rocketToBeUpdated);
@@ -46,7 +45,7 @@ public class RocketService {
         rocketRepository.delete(rocketToBeDeleted);
     }
 
-    public Rocket changeVelocityByID(Long id, Movement typeMovement) {
+    public Rocket changeVelocityByID(Long id, Movement typeMovement) throws Exception {
         Rocket rocketToChange = getRocketByID(id);
 
         if(typeMovement.getTypeMovement().equalsIgnoreCase(ACCELERATE)){
@@ -58,16 +57,19 @@ public class RocketService {
         rocketRepository.save(rocketToChange);
         return rocketToChange;
     }
-    private static void slowDown(Rocket rocket, int timesSlowdown) {
+    private static void slowDown(Rocket rocket, int timesSlowdown) throws Exception {
         for (int i = 0; i < timesSlowdown; i++) {
-            rocket.decreasePower();
-
+            for (Propellant currentPropellant: rocket.getPropellantList()) {
+                rocket.setCurrentPowerOfRocket(currentPropellant.updateActualPower(-10));
+            }
         }
     }
 
-    private static void accelerate(Rocket rocket, int times) {
+    private static void accelerate(Rocket rocket, int times) throws Exception {
         for (int i = 0; i < times; i++) {
-            rocket.increasePower();
+            for (Propellant currentPropellant: rocket.getPropellantList()) {
+              rocket.setCurrentPowerOfRocket(currentPropellant.updateActualPower(10));
+            }
         }
     }
 

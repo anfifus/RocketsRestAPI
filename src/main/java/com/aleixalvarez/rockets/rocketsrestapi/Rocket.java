@@ -11,9 +11,10 @@ public class Rocket {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private  String code;
-    @OneToMany(mappedBy = "rocket")
+    @OneToMany(mappedBy = "rocket",cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<Propellant> propellantList = new ArrayList<>();
+    private int currentPowerOfRocket = 0;
 
     public Rocket() {
     }
@@ -21,6 +22,10 @@ public class Rocket {
     public Rocket(String code) throws Exception {
         checkCode(code);
         this.code = code;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     private void checkCode(String code) throws Exception {
@@ -35,22 +40,27 @@ public class Rocket {
             propellant.setRocket(this);
             propellantList.add(propellant);
     }
-    public void increasePower(){
-        for (Propellant currentPropellant:propellantList) {
-            currentPropellant.updateActualPower(10);
-        }
-    }
-    public void decreasePower(){
-        for (Propellant currentPropellant:propellantList) {
-            currentPropellant.updateActualPower(-10);
-        }
-    }
+
 
     public List<Propellant> getPropellantList() {
         return propellantList;
     }
 
-    public void setCode(String code) {
+    public void setCode(String code) throws Exception {
+        checkCode(code);
         this.code = code;
+    }
+
+    public int getCurrentPowerOfRocket() {
+        return currentPowerOfRocket;
+    }
+
+    public void setCurrentPowerOfRocket(int currentPowerOfRocket) throws Exception {
+        checkCurrentPower(currentPowerOfRocket);
+        this.currentPowerOfRocket += currentPowerOfRocket;
+    }
+
+    private void checkCurrentPower(int currentPowerOfRocket) throws Exception {
+        if(currentPowerOfRocket<0) throw new Exception("The power must be superior of 0");
     }
 }

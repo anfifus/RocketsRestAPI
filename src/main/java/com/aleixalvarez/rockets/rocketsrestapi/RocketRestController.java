@@ -32,7 +32,7 @@ public class RocketRestController {
         return rocketService.getRocketByID(id);
     }
     @PutMapping("/rockets/{id}")
-    public Rocket updateRocketByID(@PathVariable Long id,@RequestBody Rocket rocketUpdate){
+    public Rocket updateRocketByID(@PathVariable Long id,@RequestBody Rocket rocketUpdate) throws Exception {
         return rocketService.updateRocket(id,rocketUpdate);
     }
     @DeleteMapping("/rockets/{id}")
@@ -40,7 +40,7 @@ public class RocketRestController {
         rocketService.deleteRocketByID(id);
     }
     @PostMapping("/rockets/{id}/movement")
-    public Rocket changeVelocity(@PathVariable Long id,@RequestBody Movement typeMovement){
+    public Rocket changeVelocity(@PathVariable Long id,@RequestBody Movement typeMovement) throws Exception {
         return rocketService.changeVelocityByID(id,typeMovement);
     }
     @PostMapping("/rockets/{id}/propellants")
