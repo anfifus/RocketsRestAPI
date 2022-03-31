@@ -57,7 +57,6 @@ public class RocketService {
             slowDown(rocketToChange, typeMovement.getTimesMove());
         }
         rocketRepository.save(rocketToChange);
-        //rocketToChange.updateCurrentTotalPower(rocketRepository.getTotalVelocityOfRocket());
         return rocketToChange;
     }
 
