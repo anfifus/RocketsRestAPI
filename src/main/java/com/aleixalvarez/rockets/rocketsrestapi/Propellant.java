@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class Propellant {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
     private int maxPower;
     private int actualPower;
     @ManyToOne
@@ -33,24 +33,21 @@ public class Propellant {
     }
 
 
-    public int updateActualPower(int actualPower) {
+    public void updateActualPower(int actualPower) {
         this.actualPower += actualPower;
         if(this.actualPower > maxPower){
             this.actualPower = maxPower;
-            return actualPower;
         }
         else if(this.actualPower < 0){
             this.actualPower = 0;
-            return actualPower;
         }
-        return actualPower;
     }
 
     public int getActualPower() {
         return actualPower;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 

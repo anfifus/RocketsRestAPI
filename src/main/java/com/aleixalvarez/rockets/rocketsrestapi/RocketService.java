@@ -32,22 +32,22 @@ public class RocketService {
         rocketRepository.deleteAll();
     }
 
-    public Rocket getRocketByID(Long id) {
+    public Rocket getRocketByID(long id) {
         return rocketRepository.findById(id).get();
     }
 
-    public Rocket updateRocket(Long id, Rocket rocketUpdate) throws Exception {
+    public Rocket updateRocket(long id, Rocket rocketUpdate) throws Exception {
         Rocket rocketToBeUpdated = getRocketByID(id);
         rocketToBeUpdated.setCode(rocketUpdate.getCode());
         return rocketRepository.save(rocketToBeUpdated);
     }
 
-    public void deleteRocketByID(Long id) {
+    public void deleteRocketByID(long id) {
         Rocket rocketToBeDeleted = getRocketByID(id);
         rocketRepository.delete(rocketToBeDeleted);
     }
 
-    public Rocket changeVelocityByID(Long id, Movement typeMovement) throws Exception {
+    public Rocket changeVelocityByID(long id, Movement typeMovement) throws Exception {
         Rocket rocketToChange = getRocketByID(id);
         rocketToChange.setMaxVelocityOfRocket(getMaxVelocityOfRocket(rocketToChange));
         if(typeMovement.getTypeMovement().equalsIgnoreCase(ACCELERATE)){
@@ -88,24 +88,24 @@ public class RocketService {
         }
     }
 
-    public List<Propellant> addPropellantToRocket(Long id, Propellant propellantToAdd) throws Exception {
+    public List<Propellant> addPropellantToRocket(long id, Propellant propellantToAdd) throws Exception {
         Rocket rocketToAddPropellant = getRocketByID(id);
         rocketToAddPropellant.addPropellant(propellantToAdd);
         return (List<Propellant>) propellantRepository.saveAll(rocketToAddPropellant.getPropellantList());
     }
 
-    public List<Propellant> getAllPropellantsOfTheRocket(Long id) {
+    public List<Propellant> getAllPropellantsOfTheRocket(long id) {
         Rocket rocket = getRocketByID(id);
         return rocket.getPropellantList();
         //return propellantRepository.getAllByRocket(rocket);
     }
 
-    public void deleteAllPropellantsByRocketID(Long id) {
+    public void deleteAllPropellantsByRocketID(long id) {
         Rocket rocket = getRocketByID(id);
         propellantRepository.deleteAll(rocket.getPropellantList());
     }
 
-    public Propellant getPropellantById(Long id, Long idPropellant) throws Exception {
+    public Propellant getPropellantById(long id, long idPropellant) throws Exception {
         Rocket rocket = getRocketByID(id);
         for (Propellant currentPropellant:rocket.getPropellantList()) {
             if(currentPropellant.getId() == idPropellant){
