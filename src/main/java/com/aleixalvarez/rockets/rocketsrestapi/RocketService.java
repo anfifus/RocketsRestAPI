@@ -7,7 +7,9 @@ import java.util.List;
 @Service
 public class RocketService {
     private static final String ACCELERATE = "ACCELERATE";
+    private static final int ACCELERATE_POTENCY = 10;
     private static final String SLOWDOWN = "SLOWDOWN";
+    private static final int SLOWDOWN_POTENCY = -10;
     private RocketRepository rocketRepository;
     private PropellantRepository propellantRepository;
 
@@ -47,7 +49,7 @@ public class RocketService {
 
     public Rocket changeVelocityByID(Long id, Movement typeMovement) throws Exception {
         Rocket rocketToChange = getRocketByID(id);
-
+        rocketToChange.setMaxVelocityOfRocket(getMaxVelocityOfRocket(rocketToChange));
         if(typeMovement.getTypeMovement().equalsIgnoreCase(ACCELERATE)){
             accelerate(rocketToChange, typeMovement.getTimesMove());
         }
@@ -55,21 +57,35 @@ public class RocketService {
             slowDown(rocketToChange, typeMovement.getTimesMove());
         }
         rocketRepository.save(rocketToChange);
+        //rocketToChange.updateCurrentTotalPower(rocketRepository.getTotalVelocityOfRocket());
         return rocketToChange;
     }
-    private static void slowDown(Rocket rocket, int timesSlowdown) throws Exception {
+
+    private int getMaxVelocityOfRocket(Rocket rocketToChange) {
+        int maxVelocityOfRocket = 0;
+        for (Propellant currentPropellant: rocketToChange.getPropellantList()) {
+            maxVelocityOfRocket +=currentPropellant.getMaxPower();
+        }
+        return maxVelocityOfRocket;
+    }
+
+    private void slowDown(Rocket rocket, int timesSlowdown) throws Exception {
         for (int i = 0; i < timesSlowdown; i++) {
             for (Propellant currentPropellant: rocket.getPropellantList()) {
-                rocket.setCurrentPowerOfRocket(currentPropellant.updateActualPower(-10));
+                currentPropellant.updateActualPower(SLOWDOWN_POTENCY);
+                rocket.updateCurrentTotalPower(SLOWDOWN_POTENCY,currentPropellant.getActualPower());
+
             }
         }
     }
 
-    private static void accelerate(Rocket rocket, int times) throws Exception {
+    private void accelerate(Rocket rocket, int times) throws Exception {
         for (int i = 0; i < times; i++) {
             for (Propellant currentPropellant: rocket.getPropellantList()) {
-              rocket.setCurrentPowerOfRocket(currentPropellant.updateActualPower(10));
+                currentPropellant.updateActualPower(ACCELERATE_POTENCY);
+                rocket.updateCurrentTotalPower(ACCELERATE_POTENCY,currentPropellant.getActualPower());
             }
+
         }
     }
 

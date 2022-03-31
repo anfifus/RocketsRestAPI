@@ -15,7 +15,7 @@ public class Rocket {
     @JsonManagedReference
     private List<Propellant> propellantList = new ArrayList<>();
     private int currentPowerOfRocket = 0;
-
+    private int MaxVelocityOfRocket = 0;
     public Rocket() {
     }
 
@@ -55,12 +55,22 @@ public class Rocket {
         return currentPowerOfRocket;
     }
 
-    public void setCurrentPowerOfRocket(int currentPowerOfRocket) throws Exception {
-        checkCurrentPower(currentPowerOfRocket);
+    public void updateCurrentTotalPower(int currentPowerOfRocket,int powerOfPropellant) throws Exception {
+        checkCurrentPower(powerOfPropellant);
         this.currentPowerOfRocket += currentPowerOfRocket;
     }
 
     private void checkCurrentPower(int currentPowerOfRocket) throws Exception {
-        if(currentPowerOfRocket<0) throw new Exception("The power must be superior of 0");
+        if(currentPowerOfRocket < 0) throw new Exception("The power must be superior of 0");
+
+        if( MaxVelocityOfRocket < currentPowerOfRocket) throw new Exception("The rocket is in danger too much velocity");
+    }
+
+    public int getMaxVelocityOfRocket() {
+        return MaxVelocityOfRocket;
+    }
+
+    public void setMaxVelocityOfRocket(int maxVelocityOfRocket) {
+        MaxVelocityOfRocket = maxVelocityOfRocket;
     }
 }
