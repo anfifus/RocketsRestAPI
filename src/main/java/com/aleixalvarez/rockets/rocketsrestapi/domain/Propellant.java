@@ -1,4 +1,4 @@
-package com.aleixalvarez.rockets.rocketsrestapi;
+package com.aleixalvarez.rockets.rocketsrestapi.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 

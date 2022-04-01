@@ -1,4 +1,4 @@
-package com.aleixalvarez.rockets.rocketsrestapi;
+package com.aleixalvarez.rockets.rocketsrestapi.rest.dto;
 
 public class Movement {
     private static final String ACCELERATE = "ACCELERATE";

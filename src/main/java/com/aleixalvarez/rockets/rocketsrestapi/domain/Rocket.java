@@ -1,5 +1,6 @@
-package com.aleixalvarez.rockets.rocketsrestapi;
+package com.aleixalvarez.rockets.rocketsrestapi.domain;
 
+import com.aleixalvarez.rockets.rocketsrestapi.domain.Propellant;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;

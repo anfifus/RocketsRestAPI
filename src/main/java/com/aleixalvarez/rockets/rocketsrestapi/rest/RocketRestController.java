@@ -1,15 +1,21 @@
-package com.aleixalvarez.rockets.rocketsrestapi;
+package com.aleixalvarez.rockets.rocketsrestapi.rest;
 
+import com.aleixalvarez.rockets.rocketsrestapi.rest.dto.Movement;
+import com.aleixalvarez.rockets.rocketsrestapi.service.RocketService;
+import com.aleixalvarez.rockets.rocketsrestapi.domain.Propellant;
+import com.aleixalvarez.rockets.rocketsrestapi.domain.Rocket;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
 public class RocketRestController {
     private RocketService rocketService;
 
-    @Autowired
     public RocketRestController(RocketService rocketService) {
         this.rocketService = rocketService;
     }
@@ -19,8 +25,12 @@ public class RocketRestController {
         return rocketService.getAllRockets();
     }
     @PostMapping("/rockets")
-    public Rocket addRocket(@RequestBody Rocket rocketToAdd){
-        return rocketService.addRocket(rocketToAdd);
+    public ResponseEntity<Rocket> addRocket(@RequestBody Rocket rocketToAdd) throws URISyntaxException {
+        Rocket rocket = rocketService.addRocket(rocketToAdd);
+
+        return  ResponseEntity
+                .created(new URI("/rockets/" + rocket.getId()))
+                .body(rocket);
     }
     @DeleteMapping("/rockets")
     public void deleteAllRockets(){
@@ -67,4 +77,5 @@ public class RocketRestController {
     public void deleteAllPropellantsByRocketID(@PathVariable Long id,@PathVariable Long idPropellant) throws Exception {
         rocketService.deletePropellantsById(id,idPropellant);
     }
+
 }

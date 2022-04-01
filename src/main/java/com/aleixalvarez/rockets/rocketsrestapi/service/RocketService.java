@@ -1,5 +1,10 @@
-package com.aleixalvarez.rockets.rocketsrestapi;
+package com.aleixalvarez.rockets.rocketsrestapi.service;
 
+import com.aleixalvarez.rockets.rocketsrestapi.domain.Propellant;
+import com.aleixalvarez.rockets.rocketsrestapi.domain.Rocket;
+import com.aleixalvarez.rockets.rocketsrestapi.repository.PropellantRepository;
+import com.aleixalvarez.rockets.rocketsrestapi.repository.RocketRepository;
+import com.aleixalvarez.rockets.rocketsrestapi.rest.dto.Movement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +19,6 @@ public class RocketService {
     private PropellantRepository propellantRepository;
 
 
-    @Autowired
     public RocketService(RocketRepository rocketRepository, PropellantRepository propellantRepository) {
         this.rocketRepository = rocketRepository;
         this.propellantRepository = propellantRepository;
@@ -43,8 +47,7 @@ public class RocketService {
     }
 
     public void deleteRocketByID(long id) {
-        Rocket rocketToBeDeleted = getRocketByID(id);
-        rocketRepository.delete(rocketToBeDeleted);
+        rocketRepository.deleteById(id);
     }
 
     public Rocket changeVelocityByID(long id, Movement typeMovement) throws Exception {
@@ -97,7 +100,6 @@ public class RocketService {
     public List<Propellant> getAllPropellantsOfTheRocket(long id) {
         Rocket rocket = getRocketByID(id);
         return rocket.getPropellantList();
-        //return propellantRepository.getAllByRocket(rocket);
     }
 
     public void deleteAllPropellantsByRocketID(long id) {
@@ -122,7 +124,7 @@ public class RocketService {
     }
 
     public void deletePropellantsById(Long id, Long idPropellant) throws Exception {
-        Propellant propellantToDelete = getPropellantById(id,idPropellant);
+        Propellant propellantToDelete = getPropellantById(id, idPropellant);
         propellantRepository.delete(propellantToDelete);
     }
 }

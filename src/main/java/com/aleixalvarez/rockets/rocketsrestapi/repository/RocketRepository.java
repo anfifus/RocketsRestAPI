@@ -1,10 +1,9 @@
-package com.aleixalvarez.rockets.rocketsrestapi;
+package com.aleixalvarez.rockets.rocketsrestapi.repository;
 
-import org.springframework.data.jpa.repository.Query;
+import com.aleixalvarez.rockets.rocketsrestapi.domain.Rocket;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RocketRepository extends CrudRepository<Rocket,Long> {
-
 }
