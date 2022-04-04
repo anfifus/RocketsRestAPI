@@ -25,12 +25,9 @@ public class RocketRestController {
         return rocketService.getAllRockets();
     }
     @PostMapping("/rockets")
-    public ResponseEntity<Rocket> addRocket(@RequestBody Rocket rocketToAdd) throws URISyntaxException {
+    public Rocket addRocket(@RequestBody Rocket rocketToAdd) throws URISyntaxException {
         Rocket rocket = rocketService.addRocket(rocketToAdd);
-
-        return  ResponseEntity
-                .created(new URI("/rockets/" + rocket.getId()))
-                .body(rocket);
+        return rocket;
     }
     @DeleteMapping("/rockets")
     public void deleteAllRockets(){
