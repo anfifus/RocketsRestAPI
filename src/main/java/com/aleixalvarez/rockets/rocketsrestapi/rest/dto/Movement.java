@@ -29,6 +29,7 @@ public class Movement {
         return typeMovement;
     }
 
+
     public void setTypeMovement(String typeMovement) throws Exception {
         checkTypeMovement(typeMovement);
         this.typeMovement = typeMovement;
